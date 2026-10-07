@@ -1,0 +1,19 @@
+--- a/source/duke3d/src/config.cpp
++++ b/source/duke3d/src/config.cpp
+@@ -1100,6 +1100,16 @@
+ {
+     OSD_Dispatch(cmd);
+ }
++
++// Changed 2026-10-07 for thegrandpricks.com/games/duke3d/ (GPL-2.0 section 2a): Web_Look
++// adds the page's touch look-pad movement to the same accumulator SDL mouse motion goes
++// into, so a thumb turns and aims exactly like the mouse (mouseReadPos only hands it to
++// the game while the mouse is grabbed, i.e. in play). Otherwise as in eduke32-wasm v0.2.4.
++extern "C" EMSCRIPTEN_KEEPALIVE void Web_Look(int32_t dx, int32_t dy)
++{
++    g_mousePos.x += dx;
++    g_mousePos.y += dy;
++}
+ #endif
+ 
+ char const * CONFIG_GetGameFuncOnKeyboard(int gameFunc)

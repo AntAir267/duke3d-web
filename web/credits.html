@@ -56,8 +56,8 @@ See the included license file "BUILDLIC.TXT" for license info.</pre>
 <h2>This copy and its source</h2>
 <p>Built from the eduke32-wasm v0.2.4 source (commit 37b56ee) with Emscripten 6.0.5, with a few changes:
 online play and the Multiplayer menu entry are left out, the engine doesn't use JavaScript's eval (so the
-page can run under a strict security policy), saved games are kept in your browser, and quitting offers
-to play again.</p>
+page can run under a strict security policy), saved games are kept in your browser, quitting offers
+to play again, and there are touch controls.</p>
 <p>Complete source, the changes and the build scripts:
 <a href="https://github.com/AntAir267/duke3d-web">github.com/AntAir267/duke3d-web</a>.
 Upstream source: <a href="https://github.com/DigitalCyberSoft/eduke32-wasm/tree/v0.2.4">eduke32-wasm v0.2.4</a>.</p>
@@ -75,7 +75,13 @@ Upstream source: <a href="https://github.com/DigitalCyberSoft/eduke32-wasm/tree/
   <tr><td>Save / load</td><td>F2 / F3, quick save F6, quick load F9</td></tr>
   <tr><td>Menu</td><td>Esc (also lets go of the mouse)</td></tr>
 </table>
-<p>These are EDuke32's modern defaults, so the 1996 help screens (F1) list different keys.
-Options &gt; Controls changes them.</p>
+<p>These are EDuke32's modern defaults (plus the Up and Down arrows), so the 1996 help screens (F1)
+list different keys. Options &gt; Controls changes them.</p>
+
+<h2>Touch screens</h2>
+<p>The left half of the screen is a move stick: put your thumb down anywhere there and slide (push to the
+edge to run). Drag on the right half to look around. FIRE shoots (drag on it to aim while firing); USE opens
+doors and switches, then JUMP, DUCK, KICK, WPN (next weapon) and ITEM (use the selected item). MAP and MENU
+are at the side. In menus, use the arrows with OK and BACK. Pressing a real key hides the touch controls.</p>
 </body>
 </html>

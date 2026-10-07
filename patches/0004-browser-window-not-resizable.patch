@@ -1,0 +1,33 @@
+--- a/source/build/src/sdlayer.cpp
++++ b/source/build/src/sdlayer.cpp
+@@ -1,5 +1,9 @@
+ // SDL interface layer for the Build Engine
+ // Use SDL 1.2 or 2.0 from http://www.libsdl.org
++//
++// This file has been modified from Ken Silverman's original release
++// (Changed 2026-10-07 for thegrandpricks.com/games/duke3d/, GPL-2.0 section 2a: the browser
++// build's window is not resizable; see the note at its SDL_CreateWindow below.)
+ 
+ #include <signal.h>
+ #ifdef __EMSCRIPTEN__
+@@ -1926,9 +1930,19 @@
+ #endif  // defined USE_OPENGL
+     {
+         // init
++#ifdef __EMSCRIPTEN__
++        // Not resizable in the browser. For a resizable window whose canvas has a CSS size
++        // (the page always sets one), Emscripten's SDL takes the CSS size as the window size
++        // and makes its framebuffer that big, while the engine keeps blitting x*y pixels into
++        // it: past its end when the canvas is shown smaller than the render (phones), which
++        // corrupts the heap. The page scales the canvas itself and keeps this size.
++        int const resizable = 0;
++#else
++        int const resizable = SDL_WINDOW_RESIZABLE;
++#endif
+         sdl_window = SDL_CreateWindow("", g_windowPosValid ? g_windowPos.x : (int)SDL_WINDOWPOS_CENTERED_DISPLAY(display),
+                                           g_windowPosValid ? g_windowPos.y : (int)SDL_WINDOWPOS_CENTERED_DISPLAY(display), x, y,
+-                                      SDL_WINDOW_RESIZABLE | borderless);
++                                      resizable | borderless);
+         if (!sdl_window)
+             SDL2_VIDEO_ERR("SDL_CreateWindow");
+ 
