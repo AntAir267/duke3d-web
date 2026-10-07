@@ -1,0 +1,18 @@
+--- a/source/duke3d/src/_functio.h
++++ b/source/duke3d/src/_functio.h
+@@ -264,10 +264,13 @@
+ 
+ #ifdef __SETUP__
+ 
++// Changed 2026-10-07 for thegrandpricks.com/games/duke3d/ (GPL-2.0 section 2a): the Up and
++// Down arrows move forward and back by default (they were unbound, which leaves keyboard-only
++// players unable to walk); they take the keypad 8/2 slots. Otherwise as in eduke32-wasm v0.2.4.
+ const char keydefaults[NUMGAMEFUNCTIONS*2][MAXGAMEFUNCLEN] =
+    {
+-   "W", "Kpad8",
+-   "S", "Kpad2",
++   "W", "Up",
++   "S", "Down",
+    "Left", "Kpad4",
+    "Right", "KPad6",
+    "LAlt", "RAlt",
