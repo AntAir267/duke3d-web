@@ -1,0 +1,138 @@
+Third-party code compiled into eduke32.wasm / eduke32.js
+==========================================================
+
+Besides EDuke32 itself (GNU GPL version 2, see COPYING.TXT) and Ken Silverman's
+Build engine (see BUILDLIC.TXT), the engine in this folder contains the code
+below. Each keeps its own license; the texts follow the list.
+
+  Nuked OPL3 (OPL3 FM synth emulation, plays the game's music)
+      Copyright (C) 2013-2019 Nuke.YKT                     GNU GPL version 2
+  SDL 2.32.10 (Emscripten port: video, input, audio)
+      Copyright (C) 1997-2025 Sam Lantinga                 zlib license
+  libxmp-lite (module music)
+      Copyright (C) 1996-2016 Claudio Matsuoka and Hipolito Carraro Jr
+                                                           MIT license
+  TinySoundFont (SoundFont MIDI synth)
+      Copyright (C) 2017-2023 Bernhard Schelling
+      based on SFZero, Copyright (C) 2012 Steve Folta      MIT license
+  Dear ImGui
+      Copyright (c) 2014-2026 Omar Cornut                  MIT license
+  ENet
+      Copyright (c) 2002-2016 Lee Salzman
+      Copyright (c) 2017-2018 Vladyslav Hrytsenko, Dominik Madarasz
+                                                           MIT license
+  miniz
+      Copyright 2013-2014 RAD Game Tools and Valve Software
+      Copyright 2010-2014 Rich Geldreich and Tenacious Software LLC
+                                                           MIT license
+  smmalloc
+      Copyright (c) 2017-2021 Sergey Makeev                MIT license
+  sjson
+      Copyright 2018 Sepehr Taghdisian                     BSD 2-clause license
+      includes code Copyright (C) 2011 Joseph A. Adams      MIT license
+  libfixmath (fix16)
+      Copyright the libfixmath authors                     MIT license
+  LZ4
+      Copyright (C) 2011-2023 Yann Collet                  BSD 2-clause license
+  xxHash
+      Copyright (C) 2012-2023 Yann Collet                  BSD 2-clause license
+  libdivide
+      Copyright (C) 2010-2022 ridiculous_fish
+      Copyright (C) 2016-2022 Kim Walisch                  zlib license
+  loguru (logging), by Emil Ernerfeldt                     public domain
+  KPLIB (Ken's Picture LIBrary)
+      Copyright (c) 1998-2008 Ken Silverman, http://advsys.net/ken
+      "I offer this code to the community for free use - all I ask is that
+      my name be included in the credits."
+  MD4: derived from the RSA Data Security, Inc. MD4 Message-Digest Algorithm
+      (license text below)
+  Emscripten runtime and system libraries (musl libc, libc++, libc++abi,
+      compiler-rt, dlmalloc)                               MIT / University of
+      Illinois NCSA / Apache 2.0 with LLVM exception / public domain
+
+
+MIT license
+-----------
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+BSD 2-clause license
+--------------------
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+  * Redistributions of source code must retain the above copyright notice,
+    this list of conditions and the following disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+
+zlib license
+------------
+This software is provided 'as-is', without any express or implied
+warranty. In no event will the authors be held liable for any damages
+arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it
+freely, subject to the following restrictions:
+
+1. The origin of this software must not be misrepresented; you must not
+   claim that you wrote the original software. If you use this software
+   in a product, an acknowledgment in the product documentation would be
+   appreciated but is not required.
+2. Altered source versions must be plainly marked as such, and must not be
+   misrepresented as being the original software.
+3. This notice may not be removed or altered from any source distribution.
+
+
+RSA Data Security, Inc. MD4 Message-Digest Algorithm
+----------------------------------------------------
+Copyright (C) 1990-2, RSA Data Security, Inc. All rights reserved.
+
+License to copy and use this software is granted provided that it
+is identified as the "RSA Data Security, Inc. MD4 Message-Digest
+Algorithm" in all material mentioning or referencing this software
+or this function.
+
+License is also granted to make and use derivative works provided
+that such works are identified as "derived from the RSA Data
+Security, Inc. MD4 Message-Digest Algorithm" in all material
+mentioning or referencing the derived work.
+
+RSA Data Security, Inc. makes no representations concerning either
+the merchantability of this software or the suitability of this
+software for any particular purpose. It is provided "as is"
+without express or implied warranty of any kind.
+
+These notices must be retained in any copies of any part of this
+documentation and/or software.

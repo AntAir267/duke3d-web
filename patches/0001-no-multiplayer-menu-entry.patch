@@ -1,0 +1,28 @@
+--- a/source/duke3d/src/menus.cpp
++++ b/source/duke3d/src/menus.cpp
+@@ -398,12 +398,12 @@
+ #endif
+ #endif
+ 
++// Changed 2026-10-07 for thegrandpricks.com/games/duke3d/ (GPL-2.0 section 2a): the
++// "Multiplayer" entry is taken out of both main menus below, because that copy ships
++// without the online-play layer (eduke32-net.js). Otherwise as in eduke32-wasm v0.2.4.
+ static MenuEntry_t *MEL_MAIN[] = {
+     &ME_MAIN_NEWGAME,
+     &ME_MAIN_LOADGAME,
+-#ifdef NETMENU
+-    &ME_MAIN_MULTIPLAYER,
+-#endif
+     &ME_MAIN_OPTIONS,
+     &ME_MAIN_HELP,
+ #ifndef EDUKE32_RETAIL_MENU
+@@ -420,9 +420,6 @@
+ #endif
+     &ME_MAIN_SAVEGAME,
+     &ME_MAIN_LOADGAME,
+-#ifdef NETMENU
+-    &ME_MAIN_MULTIPLAYER,   // reachable from ESC in-game too (live request)
+-#endif
+     &ME_MAIN_OPTIONS,
+     &ME_MAIN_HELP,
+     &ME_MAIN_QUITTOTITLE,

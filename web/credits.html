@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Duke Nukem 3D Shareware: credits and licenses</title>
+<style>
+  :root { --bg:#0a0805; --panel:#16110b; --line:#3a2c1a; --text:#d8ccbf; --dim:#a89a88; --head:#f2c400; --link:#ffb347; }
+  html { background:var(--bg); }
+  body { margin:0 auto; max-width:720px; padding:28px 16px 48px; color:var(--text); background:var(--bg);
+    font:15px/1.6 "Trebuchet MS", Verdana, sans-serif; }
+  h1 { color:var(--head); font-size:26px; line-height:1.2; margin:0 0 4px; letter-spacing:.02em; }
+  h2 { color:var(--head); font-size:17px; margin:30px 0 8px; padding-top:16px; border-top:1px solid var(--line); }
+  p, ul { margin:0 0 12px; }
+  ul { padding-left:20px; }
+  li { margin-bottom:6px; }
+  a { color:var(--link); }
+  .sub { color:var(--dim); margin-bottom:20px; }
+  pre { background:var(--panel); border:1px solid var(--line); padding:10px 12px; overflow-x:auto; font-size:13px; color:var(--text); }
+  table { border-collapse:collapse; font-size:14px; }
+  td { padding:3px 14px 3px 0; vertical-align:top; }
+  td:first-child { color:var(--dim); white-space:nowrap; }
+</style>
+</head>
+<body>
+<h1>Duke Nukem 3D (shareware)</h1>
+<p class="sub">Episode One, L.A. Meltdown, shareware version 1.3D, running in the browser on EDuke32 compiled to WebAssembly.</p>
+<p><a href="./">&lt;&lt; Back to the game</a></p>
+
+<h2>The game</h2>
+<p>Duke Nukem 3D &copy; 1996 3D Realms Entertainment, a division of Apogee Software, Ltd.
+This is the shareware episode exactly as 3D Realms released it (DUKE3D.GRP, version 1.3D, unmodified),
+shared for free under 3D Realms' shareware license: <a href="LICENSE.TXT">LICENSE.TXT</a>.
+Duke Nukem and 3D Realms are trademarks of their respective owners. This page is not affiliated with
+or endorsed by them; the full game is sold by its owners.</p>
+
+<h2>The engine</h2>
+<ul>
+  <li><b>Build engine</b> by Ken Silverman.
+<pre>"Build Engine &amp; Tools" Copyright (c) 1993-1997 Ken Silverman
+Ken Silverman's official web site: "http://www.advsys.net/ken"
+See the included license file "BUILDLIC.TXT" for license info.</pre>
+    License: <a href="BUILDLIC.TXT">BUILDLIC.TXT</a></li>
+  <li><b>EDuke32</b> by the EDuke32 team (<a href="https://www.eduke32.com/">eduke32.com</a>), the source port
+    this runs on, building on Jonathon Fowler's JFDuke3D. GNU General Public License version 2:
+    <a href="COPYING.TXT">COPYING.TXT</a></li>
+  <li><b>eduke32-wasm</b> v0.2.4 by DigitalCyberSoft
+    (<a href="https://github.com/DigitalCyberSoft/eduke32-wasm">github.com/DigitalCyberSoft/eduke32-wasm</a>),
+    the WebAssembly port and the page around it. Its netcode grew from StrikerTheHedgefox's NetDuke32. GPL version 2.</li>
+  <li>Also compiled in: Nuked OPL3 (the music synth) by Nuke.YKT, SDL 2, libxmp-lite, TinySoundFont,
+    Dear ImGui, ENet, miniz, smmalloc, sjson, libfixmath, LZ4, xxHash, libdivide, loguru, Ken Silverman's KPLIB,
+    code derived from the RSA Data Security, Inc. MD4 Message-Digest Algorithm, and the Emscripten runtime.
+    Their notices and licenses: <a href="THIRD-PARTY.TXT">THIRD-PARTY.TXT</a></li>
+</ul>
+
+<h2>This copy and its source</h2>
+<p>Built from the eduke32-wasm v0.2.4 source (commit 37b56ee) with Emscripten 6.0.5, with a few changes:
+online play and the Multiplayer menu entry are left out, the engine doesn't use JavaScript's eval (so the
+page can run under a strict security policy), saved games are kept in your browser, and quitting offers
+to play again.</p>
+<p>Complete source, the changes and the build scripts:
+<a href="https://github.com/AntAir267/duke3d-web">github.com/AntAir267/duke3d-web</a>.
+Upstream source: <a href="https://github.com/DigitalCyberSoft/eduke32-wasm/tree/v0.2.4">eduke32-wasm v0.2.4</a>.</p>
+
+<h2>Default keys</h2>
+<table>
+  <tr><td>Move</td><td>W A S D or the arrow keys</td></tr>
+  <tr><td>Fire</td><td>left mouse button or Right Ctrl</td></tr>
+  <tr><td>Open, use</td><td>E</td></tr>
+  <tr><td>Jump / crouch</td><td>Space / Left Ctrl (C toggles crouch)</td></tr>
+  <tr><td>Run</td><td>Shift (Caps Lock for always run)</td></tr>
+  <tr><td>Weapons</td><td>1 to 0, or the mouse wheel</td></tr>
+  <tr><td>Inventory</td><td>Enter uses it, [ and ] pick</td></tr>
+  <tr><td>Map</td><td>Tab</td></tr>
+  <tr><td>Save / load</td><td>F2 / F3, quick save F6, quick load F9</td></tr>
+  <tr><td>Menu</td><td>Esc (also lets go of the mouse)</td></tr>
+</table>
+<p>These are EDuke32's modern defaults, so the 1996 help screens (F1) list different keys.
+Options &gt; Controls changes them.</p>
+</body>
+</html>
