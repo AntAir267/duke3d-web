@@ -24,7 +24,8 @@ if [ ! -f build/emsdk/.emscripten ] || ! grep -q "$EMSDK_VERSION" build/emsdk/up
 fi
 
 if [ ! -d "$SRC" ]; then
-    git clone -q --branch "$TAG" --depth 1 https://github.com/DigitalCyberSoft/eduke32-wasm.git "$SRC"
+    # AntAir267/eduke32-wasm mirrors DigitalCyberSoft/eduke32-wasm (the commit check below holds either way)
+    git clone -q --branch "$TAG" --depth 1 https://github.com/AntAir267/eduke32-wasm.git "$SRC"
 fi
 [ "$(git -C "$SRC" rev-parse HEAD)" = "$COMMIT" ] || { echo "$SRC is not $TAG ($COMMIT)"; exit 1; }
 git -C "$SRC" checkout -q -- .

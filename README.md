@@ -8,11 +8,15 @@ Content-Security-Policy. Online play is left out.
 ## Build
 
 ```sh
+./build.sh              # both steps below
 tools/build-engine.sh   # engine -> build/engine/ (first run installs Emscripten 6.0.5 into build/emsdk, about 1 GB)
 python3 tools/build.py  # build/engine/ + web/ -> dist/ (also writes dist/_headers with the CSP hashes)
+./build.sh ship         # build, then put it on the site with thegrandpricks/tools/ship-game.py (commit first)
 ```
 
-`build-engine.sh` clones the v0.2.4 tag (and checks it is commit 37b56ee), applies `patches/`, and runs the
+`build-engine.sh` clones the v0.2.4 tag from [AntAir267/eduke32-wasm](https://github.com/AntAir267/eduke32-wasm),
+a mirror of [DigitalCyberSoft/eduke32-wasm](https://github.com/DigitalCyberSoft/eduke32-wasm) (and checks
+it is commit 37b56ee), applies `patches/`, and runs the
 same make command as upstream's release CI with Emscripten 6.0.5, plus `engine/csp_run_script.js`.
 Built without the patches, it reproduces the release's `eduke32.js` and `eduke32.data` byte for byte; the
 wasm has the same functions and code size, with static data laid out in a different order.
@@ -90,8 +94,8 @@ Not yet tried on a physical phone, iPhone Safari or Firefox.
 
 - Duke Nukem 3D shareware: (c) 1996 3D Realms, `LICENSE.TXT`. It allows free websites to offer the game
   for download, unmodified, and its section 3C asks for all of the shareware release's files to be
-  included. This build ships only `DUKE3D.GRP` (plus `LICENSE.TXT`), so the hosting page should also offer
-  the complete original shareware release (3DDUKE13.ZIP) as a download.
+  included. This build ships only `DUKE3D.GRP` (plus `LICENSE.TXT`), so the site also offers the complete
+  original shareware release as a download (`/downloads/3dduke13.zip`, linked from `credits.html`).
 - EDuke32 and eduke32-wasm: GPL-2.0 (`COPYING.TXT`). Build engine: `BUILDLIC.TXT` (free, internet-only,
   non-commercial distribution, with Ken Silverman's notice; see `credits.html`).
 - Distributing `dist/` means offering the complete corresponding source: this repo plus the eduke32-wasm
