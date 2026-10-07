@@ -24,6 +24,10 @@
   - a refused pointer lock no longer lands in the crash log (or the console);
   - save games persist in IndexedDB, and "Clear local data" only clears this
     game's own storage (other pages share the origin);
+  - on-screen touch controls (touch.js, with patches/0003 for looking);
+  - small windows (phones): a 4:3 box under 640x480 renders at 640x480 instead
+    of getting no video mode at all (with patches/0004, which keeps SDL's
+    framebuffer at the render size), and the canvas is scaled to the window;
   - credits and license links; the social-preview tags that pointed at the
     upstream site are removed.
 -->
@@ -105,6 +109,58 @@
     justify-content:space-between; align-items:center; color:#6f6a5f; font-size:12px; }
   #settings .foot button { border:1px solid #3a3a42; background:#1b1b20; color:#e8e2d6; padding:8px 20px; border-radius:8px; cursor:pointer; font:inherit; }
   #settings .foot button:hover { background:#26262d; }
+
+  /* ---- touch controls (touch.js shows them on touch screens) ---- */
+  /* upright phones: game at the top, controls in the space below it */
+  @media (orientation: portrait) {
+    body.touch { align-items:flex-start; }
+    body.touch #canvas { margin-top:calc(60px + env(safe-area-inset-top)); }
+  }
+  #touch { position:fixed; inset:0; z-index:15; pointer-events:none; touch-action:none; user-select:none;
+    -webkit-user-select:none; -webkit-touch-callout:none; -webkit-tap-highlight-color:transparent; }
+  /* touch.js hides every control whose data-on doesn't list the current view (game or menu) */
+  #touch[hidden], #touch [hidden] { display:none !important; }
+  #touch .pad { position:absolute; top:0; bottom:0; width:50%; pointer-events:auto; touch-action:none; }
+  #touch .pad.move { left:0; }
+  #touch .pad.look { right:0; }
+  #touch button { pointer-events:auto; touch-action:none; display:flex; align-items:center; justify-content:center;
+    width:54px; height:54px; padding:0; margin:0; border-radius:50%; border:2px solid rgba(242,196,0,.5);
+    background:rgba(242,196,0,.12); color:var(--duke-yellow); font:bold 12px/1 "Trebuchet MS",Verdana,sans-serif;
+    letter-spacing:.04em; text-shadow:0 1px 2px #000; -webkit-appearance:none; appearance:none; }
+  #touch button.held { background:rgba(242,196,0,.42); }
+  /* the move stick appears under the left thumb; while idle a faint one shows where */
+  #touch .stick { position:absolute; left:calc(96px + env(safe-area-inset-left)); top:calc(100% - 112px - env(safe-area-inset-bottom));
+    width:112px; height:112px; margin:-56px 0 0 -56px; border-radius:50%; border:2px solid rgba(242,196,0,.35);
+    background:rgba(242,196,0,.05); opacity:.45; pointer-events:none; }
+  #touch .stick.active { opacity:1; }
+  #touch .knob { position:absolute; left:50%; top:50%; width:48px; height:48px; margin:-24px 0 0 -24px; border-radius:50%;
+    background:rgba(242,196,0,.3); }
+  /* fire in the corner, the rest in two rings around it */
+  #touch .cluster { position:absolute; width:232px; height:232px; pointer-events:none;
+    right:calc(16px + env(safe-area-inset-right)); bottom:calc(16px + env(safe-area-inset-bottom)); }
+  #touch .cluster button { position:absolute; }
+  #touch .cluster .fire { right:0; bottom:0; width:84px; height:84px; font-size:15px; }
+  #touch .b-jump { right:113px; bottom:15px; }  #touch .b-use  { right:84px;  bottom:84px; }
+  #touch .b-duck { right:15px;  bottom:113px; } #touch .b-kick { right:178px; bottom:44px; }
+  #touch .b-wpn  { right:132px; bottom:132px; } #touch .b-item { right:44px;  bottom:178px; }
+  #touch .corner { position:absolute; display:flex; gap:10px; top:calc(64px + env(safe-area-inset-top));
+    right:calc(12px + env(safe-area-inset-right)); }
+  #touch .corner button { width:46px; height:46px; font-size:11px; }
+  @media (orientation: portrait) {   /* off the game: above the fire buttons */
+    #touch .corner { top:auto; bottom:calc(264px + env(safe-area-inset-bottom)); }
+  }
+  #touch .dpad { position:absolute; display:grid; grid-template:repeat(3, 58px) / repeat(3, 58px);
+    left:calc(16px + env(safe-area-inset-left)); bottom:calc(16px + env(safe-area-inset-bottom)); }
+  #touch .dpad button { width:56px; height:56px; border-radius:14px; font-size:18px; }
+  #touch .dpad .up { grid-area:1 / 2; } #touch .dpad .left { grid-area:2 / 1; }
+  #touch .dpad .right { grid-area:2 / 3; } #touch .dpad .down { grid-area:3 / 2; }
+  #touch .ab { position:absolute; display:flex; gap:14px; align-items:flex-end;
+    right:calc(16px + env(safe-area-inset-right)); bottom:calc(16px + env(safe-area-inset-bottom)); }
+  #touch .ab .ok { width:76px; height:76px; margin-bottom:30px; font-size:14px; }
+  @media (orientation: landscape) and (max-height: 430px) {
+    #touch .dpad { grid-template:repeat(3, 50px) / repeat(3, 50px); }
+    #touch .dpad button { width:48px; height:48px; }
+  }
 </style>
 </head>
 <body>
@@ -123,9 +179,37 @@
 <button id="mute" title="Sound on/off" aria-label="Sound on/off">&#128266;</button>
 <button id="fs" title="Fullscreen" aria-label="Fullscreen">&#x26F6;</button>
 <div id="diag"></div>
+<div id="touch" hidden>
+  <div class="pad move" data-on="game"></div>
+  <div class="pad look" data-on="game"></div>
+  <div class="stick" data-on="game"><div class="knob"></div></div>
+  <div class="cluster" data-on="game">
+    <button class="fire" data-key="ControlRight" data-aim aria-label="Fire">FIRE</button>
+    <button class="b-jump" data-key="Space" aria-label="Jump">JUMP</button>
+    <button class="b-use" data-key="KeyE" aria-label="Open or use">USE</button>
+    <button class="b-duck" data-key="ControlLeft" aria-label="Crouch">DUCK</button>
+    <button class="b-kick" data-key="KeyQ" aria-label="Quick kick">KICK</button>
+    <button class="b-wpn" data-key="Quote" aria-label="Next weapon">WPN</button>
+    <button class="b-item" data-key="Enter" aria-label="Use inventory item">ITEM</button>
+  </div>
+  <div class="corner" data-on="game">
+    <button data-key="Tab" aria-label="Map">MAP</button>
+    <button data-key="Escape" aria-label="Menu">MENU</button>
+  </div>
+  <div class="dpad" data-on="menu">
+    <button class="up" data-key="ArrowUp" data-repeat aria-label="Up">&#9650;</button>
+    <button class="left" data-key="ArrowLeft" data-repeat aria-label="Left">&#9664;</button>
+    <button class="right" data-key="ArrowRight" data-repeat aria-label="Right">&#9654;</button>
+    <button class="down" data-key="ArrowDown" data-repeat aria-label="Down">&#9660;</button>
+  </div>
+  <div class="ab" data-on="menu">
+    <button class="back" data-key="Escape" aria-label="Back">BACK</button>
+    <button class="ok" data-key="Enter" aria-label="OK">OK</button>
+  </div>
+</div>
 <div id="settings" role="dialog" aria-modal="true">
   <div class="panel">
-    <h3><span class="brand">eduke32</span>-wasm <span class="ver" id="ver">Duke Nukem 3D &middot; WebAssembly</span> <span class="ver" id="build">build 0.2.4-1</span></h3>
+    <h3><span class="brand">eduke32</span>-wasm <span class="ver" id="ver">Duke Nukem 3D &middot; WebAssembly</span> <span class="ver" id="build">build 0.2.4-2</span></h3>
     <section>
       <h4>Loaded GRP files</h4>
       <ul id="grplist"><li class="empty">&hellip;</li></ul>
@@ -184,13 +268,26 @@
   function e32ResCap() { var v = null; try { v = localStorage.getItem('e32_res'); } catch (e) {}
                          return v == null ? 1080 : (parseInt(v, 10) || 0); }
   function e32Fill()   { return localStorage.getItem('e32_display') === 'fill'; }
-  function renderBox() {
-    var W = window.innerWidth || 1280, H = window.innerHeight || 720, w, h;
-    if (W / H > ASPECT) { h = H; w = Math.round(h * ASPECT); }   // window wider than 4:3 -> bars L/R
-    else                { w = W; h = Math.round(w / ASPECT); }   // window taller than 4:3 -> bars top/bottom
-    var cap = e32ResCap();                                       // optional render-height cap (Settings)
-    if (cap && h > cap) { w = Math.round(w * cap / h); h = cap; }
+  var E32_TOUCH = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
+  // the largest 4:3 box that fits in W x H
+  function fitBox(W, H) {
+    var w, h;
+    if (W / H > ASPECT) { h = H; w = Math.round(h * ASPECT); }   // wider than 4:3 -> bars L/R
+    else                { w = W; h = Math.round(w / ASPECT); }   // taller than 4:3 -> bars top/bottom
     return { w: w & ~1, h: h & ~1 };
+  }
+  // The engine's render size (read once, at boot): the window's 4:3 box under the height
+  // cap. Touch screens use their sideways shape, so turning the phone later stays sharp.
+  function renderBox() {
+    var W = window.innerWidth || 1280, H = window.innerHeight || 720;
+    if (E32_TOUCH && H > W) { var t = W; W = H; H = t; }
+    var b = fitBox(W, H), cap = e32ResCap();                     // optional render-height cap (Settings)
+    if (cap && b.h > cap) b = { w: Math.round(b.w * cap / b.h) & ~1, h: cap };
+    // The engine accepts no display mode under 640x480 (SDL_CHECKMODE), so a smaller box
+    // (any phone held sideways) left it without a video mode: a black screen. Render at
+    // 640x480 then; fitCanvas scales it down to fit.
+    if (b.h < 480) b = { w: 640, h: 480 };
+    return b;
   }
   function fitCanvas() {
     var c = document.getElementById('canvas');
@@ -199,7 +296,8 @@
       if (c.style.height !== '100vh') c.style.height = '100vh';
       return;
     }
-    var b = renderBox();  // 4:3, centered -> black side margins
+    // 4:3, centered -> black side margins; the render (renderBox) is scaled to this
+    var b = fitBox(window.innerWidth || 1280, window.innerHeight || 720);
     if (c.style.width  !== b.w + 'px') c.style.width  = b.w + 'px';
     if (c.style.height !== b.h + 'px') c.style.height = b.h + 'px';
   }
@@ -621,7 +719,7 @@
   }
   // ===========================================================================
 
-  window.__BUILD__ = "0.2.4-1";  // this build's tag: cache-buster for eduke32.js/.wasm (also on the eduke32.js tag at the end) + on-page build tag; bump it with every engine rebuild
+  window.__BUILD__ = "0.2.4-2";  // this build's tag: cache-buster for eduke32.js/.wasm (also on the eduke32.js tag at the end) + on-page build tag; bump it with every engine rebuild
 
   // ── Death certificate ─────────────────────────────────────────────────────
   // The tab has died mid-session with NOTHING to debug (no crashpad dump, no
@@ -822,9 +920,9 @@
   fitCanvas();
   window.addEventListener('resize', fitCanvas);
 
-  // No on-screen controls: say so on touch-only devices instead of the key list.
-  if (window.matchMedia && matchMedia('(hover: none) and (pointer: coarse)').matches)
-    document.getElementById('hint').textContent = 'This game needs a keyboard (and a mouse helps).';
+  // touch.js puts on-screen controls up on touch screens; explain those instead of keys
+  if (E32_TOUCH)
+    document.getElementById('hint').textContent = 'Left thumb moves, right thumb looks. Hold your phone sideways for the best view.';
 
   new MutationObserver(fitCanvas).observe(document.getElementById('canvas'),
     { attributes: true, attributeFilter: ['width', 'height', 'style'] });
@@ -1081,6 +1179,7 @@
   var boot = setInterval(function () { if (ready()) { clearInterval(boot); if (muted) apply(); } }, 500);
 })();
 </script>
-<script src="eduke32.js?v=0.2.4-1"></script>
+<script src="touch.js?v=0.2.4-2"></script>
+<script src="eduke32.js?v=0.2.4-2"></script>
 </body>
 </html>
