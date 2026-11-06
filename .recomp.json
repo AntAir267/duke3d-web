@@ -1,0 +1,27 @@
+{
+  "$schema": "https://recomp.fyi/schema/v1.json",
+  "game": "Duke Nukem 3D",
+  "system": "PC (DOS)",
+  "type": "port",
+  "project": "Duke3D web",
+  "status": "released",
+  "targets": [
+    "Web"
+  ],
+  "toolchain": "EDuke32",
+  "approach": "eduke32-wasm v0.2.4 rebuilt for a strict Content Security Policy, with touch controls, playing the freely distributable shareware episode in a browser.",
+  "started": "2026-10-07",
+  "maintainers": [
+    {
+      "name": "AntAir267",
+      "link": "https://github.com/AntAir267"
+    }
+  ],
+  "links": [
+    {
+      "label": "Play in the browser",
+      "url": "https://thegrandpricks.com/games/duke3d/"
+    }
+  ],
+  "notes": "Engine from the released source (EDuke32); plays the shareware episode only."
+}
